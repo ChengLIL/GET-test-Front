@@ -1,5 +1,7 @@
 # GET-test-Front
 
+Rappelle CDC de test :
+
 2/ Développer un front en HtML/JS/CSS (pas de design nécessaire)
 
 Ce front doit communiquer avec l'api en ajax.
