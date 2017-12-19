@@ -54,7 +54,7 @@ $(document).ready(function(){
 
         // submit form data to api
         $.ajax({
-            url: "http://localhost:8888/GET-test-api/1/users",
+            url: window.location.protocol + "//" + window.location.host + "/GET-test-api/1/users",
             type : "POST",
             contentType : 'application/json',
             data : form_data,

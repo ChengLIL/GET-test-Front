@@ -5,19 +5,24 @@ $(document).ready(function(){
         // get the user id
         var user_id = $(this).attr('user-id');
         // load list of users
-        $.getJSON("http://localhost:8888/GET-test-api/1/users", function(data){
+        $.getJSON(window.location.protocol + "//" + window.location.host + "/GET-test-api/1/users", function(data){
             // build users option html
             // loop through returned list of data
             var users_options_html="";
             users_options_html+="<select name='user_id' id='user_id' class='form-control'>";
-            $.each(data.items, function(key, val){
-                if (val.id == user_id){
-                    users_options_html+="<option selected='selected' value='" + val.id + "'>" + val.name + "</option>";
-                }
-                else{
-                    users_options_html+="<option value='" + val.id + "'>" + val.name + "</option>";
-                }
-            });
+            if(data.items.length > 1){
+                $.each(data.items, function(key, val){
+                    if (val.id == user_id){
+                        users_options_html+="<option selected='selected' value='" + val.id + "'>" + val.name + "</option>";
+                    }
+                    else{
+                        users_options_html+="<option value='" + val.id + "'>" + val.name + "</option>";
+                    }
+                });
+            }else if((typeof data.items !== 'undefined')&&(data.items.name)){
+                users_options_html+="<option selected='selected' value='" + data.items.id + "'>" + data.items.name + "</option>";
+            }
+
             users_options_html+="</select>";
 
             // we have our html form here where task information will be entered
@@ -84,7 +89,7 @@ $(document).ready(function(){
         var form_data=JSON.stringify($(this).serializeObject());
         // submit form data to api
         $.ajax({
-            url: "http://localhost:8888/GET-test-api/1/tasks",
+            url: window.location.protocol + "//" + window.location.host + "/GET-test-api/1/tasks",
             type : "POST",
             contentType : 'application/json',
             data : form_data,

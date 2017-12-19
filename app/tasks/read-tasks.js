@@ -15,7 +15,7 @@ $(document).ready(function(){
 // function to show list of tasks
 function showTasks(user_id){
     // get list of tasks from the API
-    $.getJSON("http://localhost:8888/GET-test-api/1/tasksByUser/"+user_id, function(data){
+    $.getJSON(window.location.protocol + "//" + window.location.host + "/GET-test-api/1/tasksByUser/"+user_id, function(data){
         // html for listing tasks
         read_tasks_html="";
 
@@ -41,33 +41,59 @@ function showTasks(user_id){
         read_tasks_html+="<th class='w-15-pct text-align-center'>Action</th>";
         read_tasks_html+="</tr>";
 
-        // loop through returned list of data
-        $.each(data.items, function(key, val) {
+        if(data.items.length > 1){
+            // loop through returned list of data
+            $.each(data.items, function(key, val){
+
+                // creating new table row per record
+                read_tasks_html+="<tr>";
+
+                read_tasks_html+="<td>" + val.title + "</td>";
+                read_tasks_html+="<td>" + val.description + "</td>";
+                read_tasks_html+="<td>" + user_id + "</td>";
+                read_tasks_html+="<td>" + val.status + "</td>";
+
+                // 'action' buttons
+                read_tasks_html+="<td>";
+                // read one task button
+                read_tasks_html+="<button class='btn btn-primary m-r-10px read-one-task-button' task-id='" + val.id + "' user-id='" + user_id + "'>";
+                read_tasks_html+="<span class='glyphicon glyphicon-eye-open'></span> Voir";
+                read_tasks_html+="</button>";
+
+                // delete button
+                read_tasks_html+="<button class='btn btn-danger delete-task-button' task-id='" + val.id + "' user-id='" + user_id + "'>";
+                read_tasks_html+="<span class='glyphicon glyphicon-remove'></span> Supprimer";
+                read_tasks_html+="</button>";
+                read_tasks_html+="</td>";
+
+                read_tasks_html+="</tr>";
+
+            });
+        }else if((typeof data.items !== 'undefined')&&(data.items.title)){
 
             // creating new table row per record
             read_tasks_html+="<tr>";
 
-            read_tasks_html+="<td>" + val.title + "</td>";
-            read_tasks_html+="<td>" + val.description + "</td>";
-            read_tasks_html+="<td>" + val.user_id + "</td>";
-            read_tasks_html+="<td>" + val.status + "</td>";
+            read_tasks_html+="<td>" + data.items.title + "</td>";
+            read_tasks_html+="<td>" + data.items.description + "</td>";
+            read_tasks_html+="<td>" + user_id + "</td>";
+            read_tasks_html+="<td>" + data.items.status + "</td>";
 
             // 'action' buttons
             read_tasks_html+="<td>";
             // read one task button
-            read_tasks_html+="<button class='btn btn-primary m-r-10px read-one-task-button' task-id='" + val.id + "' user-id='" + user_id + "'>";
+            read_tasks_html+="<button class='btn btn-primary m-r-10px read-one-task-button' task-id='" + data.items.id + "' user-id='" + user_id + "'>";
             read_tasks_html+="<span class='glyphicon glyphicon-eye-open'></span> Voir";
             read_tasks_html+="</button>";
 
             // delete button
-            read_tasks_html+="<button class='btn btn-danger delete-task-button' task-id='" + val.id + "' user-id='" + user_id + "'>";
+            read_tasks_html+="<button class='btn btn-danger delete-task-button' task-id='" + data.items.id + "' user-id='" + user_id + "'>";
             read_tasks_html+="<span class='glyphicon glyphicon-remove'></span> Supprimer";
             read_tasks_html+="</button>";
             read_tasks_html+="</td>";
 
             read_tasks_html+="</tr>";
-
-        });
+        }
 
         // end table
         read_tasks_html+="</table>";

@@ -24,7 +24,7 @@ $(document).ready(function(){
 
                     // send delete request to api / remote server
                     $.ajax({
-                        url: "http://localhost:8888/GET-test-api/1/tasks/"+task_id,
+                        url: window.location.protocol + "//" + window.location.host + "/GET-test-api/1/tasks/"+task_id,
                         type : "DELETE",
                         dataType : 'json',
                         success : function(result) {

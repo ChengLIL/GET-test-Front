@@ -6,7 +6,7 @@ $(document).ready(function(){
         var task_id = $(this).attr('task-id');
         var user_id = $(this).attr('user-id');
         // read task record based on given ID
-        $.getJSON("http://localhost:8888/GET-test-api/1/tasks/" + task_id, function(data){
+        $.getJSON(window.location.protocol + "//" + window.location.host + "/GET-test-api/1/tasks/" + task_id, function(data){
             // start html
             var read_one_task_html="";
 
